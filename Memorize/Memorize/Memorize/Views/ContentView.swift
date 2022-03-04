@@ -8,17 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-  let emojis = ["🚗", "🚛", "🚕", "✈️", "🛵",
-                "🏍", "🛺", "🚃", "🚀", "🛸",
-                "🚁", "🛶", "⛵️", "🚤", "🛥"]
   @State var currentlyDisplayingImjoiCounter = 15
+  @State var theme: Theme = .vehicle {
+    willSet {
+      if self.currentlyDisplayingImjoiCounter > newValue.symbols.count {
+        self.currentlyDisplayingImjoiCounter = newValue.symbols.count
+      }
+    }
+  }
+  
+  var emojis: [String] {
+    return self.theme.symbols.shuffled()
+  }
   
   var body: some View {
     VStack {
+      Text("Memorize")
+        .font(.largeTitle)
+        .padding(.top)
+      
       ScrollView {
         // Lazy refers to when the Grid actually gets the body var for each of the elements
         // In this case, it only gets the body content when the view is presented on screen
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90))]) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
           // ForEach needs the class that we iterate to conform to Identifiable
           // String does not.
           // In this case, we add the id and we say that the self is the identifiable, meaning the string itself
@@ -31,21 +43,28 @@ struct ContentView: View {
         }
       }
       
-      HStack {
-        self.addButton
-        
-        // A Spacer will grab as much space as it can!
-        Spacer()
-        
-        Text("Shuffle")
-          .foregroundColor(.blue)
-        
-        Spacer()
-        
-        self.removeButton
-        
+      LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))]) {
+        ForEach(Theme.allCases) { theme in
+          Button {
+            self.theme = theme
+          } label: {
+            ZStack {
+              Circle()
+                .strokeBorder(lineWidth: 2, antialiased: true)
+                
+              
+              VStack {
+                Text(theme.representingEmoji)
+                  .padding(.top)
+                Text(theme.id)
+                  .padding(.bottom)
+              }
+            }
+            .foregroundColor(.red)
+          }
+          .padding(.top)
+        }
       }
-      .font(.largeTitle)
     }
     .padding(.horizontal)
   }

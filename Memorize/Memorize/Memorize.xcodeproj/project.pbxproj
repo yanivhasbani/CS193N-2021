@@ -15,6 +15,7 @@
 		D642ABF927D2506C008DA024 /* MemorizeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642ABF827D2506C008DA024 /* MemorizeUITests.swift */; };
 		D642ABFB27D2506C008DA024 /* MemorizeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642ABFA27D2506C008DA024 /* MemorizeUITestsLaunchTests.swift */; };
 		D642AC0927D251F2008DA024 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642AC0827D251F2008DA024 /* CardView.swift */; };
+		D642AC0C27D27343008DA024 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D642AC0B27D27343008DA024 /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		D642ABF827D2506C008DA024 /* MemorizeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeUITests.swift; sourceTree = "<group>"; };
 		D642ABFA27D2506C008DA024 /* MemorizeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D642AC0827D251F2008DA024 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		D642AC0B27D27343008DA024 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 		D642ABDC27D25069008DA024 /* Memorize */ = {
 			isa = PBXGroup;
 			children = (
+				D642AC0A27D27336008DA024 /* Model */,
 				D642AC0727D251D6008DA024 /* Views */,
 				D642ABE127D2506C008DA024 /* Assets.xcassets */,
 				D642ABE327D2506C008DA024 /* Preview Content */,
@@ -136,6 +139,14 @@
 				D642AC0827D251F2008DA024 /* CardView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D642AC0A27D27336008DA024 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D642AC0B27D27343008DA024 /* Theme.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D642ABE027D2506A008DA024 /* ContentView.swift in Sources */,
+				D642AC0C27D27343008DA024 /* Theme.swift in Sources */,
 				D642AC0927D251F2008DA024 /* CardView.swift in Sources */,
 				D642ABDE27D2506A008DA024 /* MemorizeApp.swift in Sources */,
 			);
