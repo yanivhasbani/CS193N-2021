@@ -11,10 +11,10 @@ struct ContentView: View {
     var body: some View {
       ZStack {
         RoundedRectangle(cornerRadius: 20)
-          .stroke()
+          .stroke(lineWidth: 3)
         Text("Hello World")
       }
-      .padding(.all)
+      .padding(.horizontal)
       .foregroundColor(.red)
     }
 }
