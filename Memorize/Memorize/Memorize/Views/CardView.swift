@@ -8,34 +8,33 @@
 import SwiftUI
 
 struct CardView: View {
-  // Points to the heap
-  // Even though our CardView is a struct, which makes it immutable, this @State is creating a pointer to something in th heap
-  // Once somethings that is mentioned as a @State changes, than the SwiftUI system will recalculate the whole view system and rebuild this view
-  @State var isFacedUp: Bool = true
-  
-  var content: String
+  let card: MemoryGame<String>.Card
   
   var body: some View {
-    let shape = RoundedRectangle(cornerRadius: 20)
-    
     ZStack {
-      if self.isFacedUp {
+      let shape = RoundedRectangle(cornerRadius: 20)
+      if self.card.isMatched {
         shape.fill(.white)
         shape.strokeBorder(lineWidth: 3)
-        Text(self.content).font(.largeTitle)
+        Text(self.card.content)
+          .font(.largeTitle)
+          .opacity(0.1)
+      } else if self.card.isFacedUp {
+        shape.fill(.white)
+        shape.strokeBorder(lineWidth: 3)
+        Text(self.card.content)
+          .font(.largeTitle)
       } else {
         shape.fill()
       }
     }
     .foregroundColor(.red)
-    .onTapGesture {
-      self.isFacedUp = !self.isFacedUp
-    }
   }
 }
 
 struct CardView_Previews: PreviewProvider {
   static var previews: some View {
-    CardView(content: "🚗")
+    let card = MemoryGame<String>.Card(content: "🚗")
+    CardView(card: card)
   }
 }
