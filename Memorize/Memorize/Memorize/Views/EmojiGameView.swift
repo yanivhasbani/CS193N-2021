@@ -27,21 +27,15 @@ struct EmojiGameView: View {
         .font(.largeTitle)
         .padding(.top)
         
-      ScrollView {
-        // Lazy refers to when the Grid actually gets the body var for each of the elements
-        // In this case, it only gets the body content when the view is presented on screen
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: DrawingConstants.gridMininumWidth))]) {
-          // ForEach needs the class that we iterate to conform to Identifiable
-          // String does not.
-          // In this case, we add the id and we say that the self is the identifiable, meaning the string itself
-          // So what will happen is, if we have the same string twice, we will have 2 views but their @State will be the same!!!
-          ForEach(self.game.cards) { card in
-            CardView(card, self.game.cardColor)
-              .aspectRatio(2/3, contentMode: .fit)
-              .onTapGesture {
-                self.game.choose(card)
-              }
-          }
+      AspectVGrid(self.game.cards, aspectRatio: DrawingConstants.cardAspectRatio) { card in
+        if card.isMatched {
+          Rectangle().opacity(0)
+        } else {
+          CardView(card, self.game.cardColor)
+            .padding(DrawingConstants.cardPadding)
+            .onTapGesture {
+              self.game.choose(card)
+            }
         }
       }
       
@@ -58,6 +52,8 @@ struct EmojiGameView: View {
   
   private struct DrawingConstants {
     static let gridMininumWidth: CGFloat = 80
+    static let cardAspectRatio: CGFloat = 0.75
+    static let cardPadding: CGFloat = 4
   }
 }
 

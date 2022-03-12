@@ -22,15 +22,12 @@ struct CardView: View {
     GeometryReader { geomtry in
       ZStack {
         let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-        if self.card.isMatched {
+        if self.card.isFacedUp {
           shape.fill(.white)
           shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
-          Text(self.card.content)
-            .font(self.font(in: geomtry.size))
-            .opacity(0.1)
-        } else if self.card.isFacedUp {
-          shape.fill(.white)
-          shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
+          Pie(startAngle: Angle(degrees: -90), endAngle: Angle(degrees: -90 + 120))
+            .padding(5)
+            .opacity(0.6)
           Text(self.card.content)
             .font(self.font(in: geomtry.size))
         } else {
@@ -50,9 +47,9 @@ struct CardView: View {
   }
   
   private struct DrawingConstants {
-    static let cornerRadius: CGFloat = 20
+    static let cornerRadius: CGFloat = 10
     static let lineWidth: CGFloat = 3
-    static let fontScale: CGFloat = 0.8
+    static let fontScale: CGFloat = 0.65
   }
 }
 
