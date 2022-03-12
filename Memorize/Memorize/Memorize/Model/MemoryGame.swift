@@ -6,14 +6,18 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
   let theme: Theme
   
   private(set) var cards: [Card] = []
-  private(set) var score: Int = 0
+  private(set) var score = 0
   
-  private var onlyCardCurrentlyFacingUpIndex: Int?
+  private var onlyCardCurrentlyFacingUpIndex: Int? {
+    get {self.cards.indices.filter { self.cards[$0].isFacedUp}.oneAndOnly}
+    set {self.cards.indices.forEach { self.cards[$0].isFacedUp = ($0 == newValue)} }
+  }
   
   init(theme: Theme, createCardContent: (Int) -> CardContent) {
     self.theme = theme
@@ -35,35 +39,26 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     if let currenltySelectedCardIndex = self.onlyCardCurrentlyFacingUpIndex {
       let currenltySelectedCard = self.cards[currenltySelectedCardIndex]
+      self.cards[chosenCardIndex].isFacedUp = true
       
       if card.content == currenltySelectedCard.content {
         self.cards[chosenCardIndex].isMatched = true
         self.cards[currenltySelectedCardIndex].isMatched = true
         self.score += 2
       } else {
-        if card.alreadySeen {
+        if self.cards[chosenCardIndex].alreadySeen {
           self.score -= 1
         }
         self.cards[chosenCardIndex].alreadySeen = true
         
-        if currenltySelectedCard.alreadySeen {
+        if self.cards[currenltySelectedCardIndex].alreadySeen {
           self.score -= 1
         }
         self.cards[currenltySelectedCardIndex].alreadySeen = true
       }
-      
-      self.onlyCardCurrentlyFacingUpIndex = nil
     } else {
-      for cardIndex in self.cards.indices {
-        if !self.cards[cardIndex].isMatched {
-          self.cards[cardIndex].isFacedUp = false
-        }
-      }
-      
       self.onlyCardCurrentlyFacingUpIndex = chosenCardIndex
     }
-    
-    self.cards[chosenCardIndex].isFacedUp.toggle()
   }
   
   struct Card: Identifiable {
