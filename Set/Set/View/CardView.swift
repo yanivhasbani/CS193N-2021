@@ -15,7 +15,7 @@ struct CardView: View {
   }
   
   var body: some View {
-    let shape = RoundedRectangle(cornerRadius: 30)
+    let shape = RoundedRectangle(cornerRadius: Constants.cardRoundedCorners)
     ZStack {
       if self.card.isSelected {
         shape.fill(.white)
@@ -180,6 +180,7 @@ struct CardView: View {
   
   enum Constants {
     static let cardBorderWidth = 5.0
+    static let cardRoundedCorners = 15.0
   }
 }
 

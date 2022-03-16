@@ -26,7 +26,7 @@ struct Diamond: Shape {
                                y: minLength - padding))
       path.addLine(to: CGPoint(x: center.x + minLength / 2 - padding,
                                y: center.y))
-      path.addLine(to: CGPoint(x: topCenter.x - 1.5, y: topCenter.y - 1.5))
+      path.addLine(to: CGPoint(x: topCenter.x - 1, y: topCenter.y - 1))
     case .height:
       let center = CGPoint(x: rect.midX, y: rect.midY)
       let topCenter = CGPoint(x: minLength / 2, y: center.y - minLength / 2)
