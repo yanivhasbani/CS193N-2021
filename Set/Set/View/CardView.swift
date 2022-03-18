@@ -20,7 +20,10 @@ struct CardView: View {
       if self.card.isSelected {
         shape.fill(.white)
         shape.fill(.purple.opacity(0.2))
-      } else {
+      } else if self.card.isMatched {
+        shape.fill(.white)
+        shape.fill(.green.opacity(0.5))
+      } else{
         shape.fill(.white)
       }
       shape

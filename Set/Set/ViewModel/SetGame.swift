@@ -11,7 +11,7 @@ class SetGame: ObservableObject {
   @Published var model: Game = Game()
   
   var cards: [Card] {
-    self.model.drawnedCards.filter { !$0.isMatched }
+    self.model.drawnedCards
   }
   
   // MARK: Intents
