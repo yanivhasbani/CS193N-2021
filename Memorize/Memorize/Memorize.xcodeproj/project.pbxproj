@@ -22,6 +22,7 @@
 		D6D5906427DCFC9C0068C92A /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5906327DCFC9C0068C92A /* ArrayExtension.swift */; };
 		D6D5906627DD20C20068C92A /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5906527DD20C20068C92A /* AspectVGrid.swift */; };
 		D6D5906827DD32880068C92A /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5906727DD32880068C92A /* Pie.swift */; };
+		D6D590BE27E478570068C92A /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D590BD27E478570068C92A /* Cardify.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		D6D5906327DCFC9C0068C92A /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		D6D5906527DD20C20068C92A /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		D6D5906727DD32880068C92A /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
+		D6D590BD27E478570068C92A /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 		D642AC0727D251D6008DA024 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D6D590BC27E478480068C92A /* Modifier */,
 				D642ABDF27D2506A008DA024 /* EmojiGameView.swift */,
 				D642AC0827D251F2008DA024 /* CardView.swift */,
 				D6D5906527DD20C20068C92A /* AspectVGrid.swift */,
@@ -197,6 +200,14 @@
 				D6D5906327DCFC9C0068C92A /* ArrayExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D6D590BC27E478480068C92A /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				D6D590BD27E478570068C92A /* Cardify.swift */,
+			);
+			path = Modifier;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6D590BE27E478570068C92A /* Cardify.swift in Sources */,
 				D6D5906827DD32880068C92A /* Pie.swift in Sources */,
 				D642AC1527D3A471008DA024 /* MemoryGameFactories.swift in Sources */,
 				D642ABE027D2506A008DA024 /* EmojiGameView.swift in Sources */,

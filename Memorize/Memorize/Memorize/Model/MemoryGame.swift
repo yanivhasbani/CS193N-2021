@@ -15,8 +15,12 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
   private(set) var score = 0
   
   private var onlyCardCurrentlyFacingUpIndex: Int? {
-    get {self.cards.indices.filter { self.cards[$0].isFacedUp}.oneAndOnly}
-    set {self.cards.indices.forEach { self.cards[$0].isFacedUp = ($0 == newValue)} }
+    get {self.cards.indices
+      .compactMap { !self.cards[$0].isMatched ? $0 : nil }
+      .filter { self.cards[$0].isFacedUp}.oneAndOnly}
+    set {self.cards.indices
+        .compactMap { !self.cards[$0].isMatched ? $0 : nil }
+        .forEach { self.cards[$0].isFacedUp = ($0 == newValue)} }
   }
   
   init(theme: Theme, createCardContent: (Int) -> CardContent) {
@@ -62,7 +66,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
   }
   
   struct Card: Identifiable {
-    var isFacedUp = true
+    var isFacedUp = false
     var isMatched = false
     var alreadySeen = false
     var content: CardContent

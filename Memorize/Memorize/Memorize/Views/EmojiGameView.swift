@@ -27,16 +27,12 @@ struct EmojiGameView: View {
         .font(.largeTitle)
         .padding(.top)
         
-      AspectVGrid(self.game.cards, aspectRatio: DrawingConstants.cardAspectRatio) { card in
-        if card.isMatched {
-          Rectangle().opacity(0)
-        } else {
-          CardView(card, self.game.cardColor)
-            .padding(DrawingConstants.cardPadding)
-            .onTapGesture {
-              self.game.choose(card)
-            }
-        }
+      AspectVGrid(self.game.cards, aspectRatio: DrawingConstants.cardAspectRatio) { card in 
+        CardView(card, self.game.cardColor)
+          .padding(DrawingConstants.cardPadding)
+          .onTapGesture {
+            self.game.choose(card)
+          }
       }
       
       Button {

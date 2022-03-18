@@ -21,35 +21,31 @@ struct CardView: View {
   var body: some View {
     GeometryReader { geomtry in
       ZStack {
-        let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-        if self.card.isFacedUp {
-          shape.fill(.white)
-          shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
-          Pie(startAngle: Angle(degrees: -90), endAngle: Angle(degrees: -90 + 120))
-            .padding(5)
-            .opacity(0.6)
-          Text(self.card.content)
-            .font(self.font(in: geomtry.size))
-        } else {
-          shape
-            .fill(
-              LinearGradient(gradient: self.cardBackColor,
-                             startPoint: .topLeading, endPoint: .bottomTrailing)
-            )
-        }
+        Pie(startAngle: Angle(degrees: -90), endAngle: Angle(degrees: -90 + 120))
+          .padding(5)
+          .opacity(0.6)
+        Text(self.card.content)
+          .rotationEffect(Angle.degrees(self.card.isMatched ? 340 : 0))
+          .animation(Animation.linear(duration: 1.2)
+                      .repeatForever(autoreverses: false),
+                     value: self.card.isMatched)
+          .font(Font.system(size: Constants.Drawing.fontSize))
+          .scaleEffect(self.scale(thatFits: geomtry.size))
       }
+      .cardify(self.card.isFacedUp, self.cardBackColor)
       .foregroundColor(.red)
     }
   }
   
-  private func font(in size: CGSize) -> Font {
-    Font.system(size: min(size.width, size.height) * DrawingConstants.fontScale)
+  private func scale(thatFits size: CGSize) -> CGFloat {
+    min(size.width, size.height) / (Constants.Drawing.fontSize / Constants.Drawing.fontScale)
   }
   
-  private struct DrawingConstants {
-    static let cornerRadius: CGFloat = 10
-    static let lineWidth: CGFloat = 3
-    static let fontScale: CGFloat = 0.65
+  private struct Constants {
+    struct Drawing {
+      static let fontScale: CGFloat = 0.65
+      static let fontSize: CGFloat = 35
+    }
   }
 }
 
