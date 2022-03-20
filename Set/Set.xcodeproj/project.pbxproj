@@ -24,6 +24,9 @@
 		D6D590B727E232AD0068C92A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D590B627E232AD0068C92A /* Game.swift */; };
 		D6D590B927E232B60068C92A /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D590B827E232B60068C92A /* SetGame.swift */; };
 		D6D590BB27E236710068C92A /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D590BA27E236710068C92A /* AspectVGrid.swift */; };
+		D6D590C327E7483B0068C92A /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D590C227E7483B0068C92A /* Cardify.swift */; };
+		D6D5910427E76AE10068C92A /* DeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5910327E76AE10068C92A /* DeckView.swift */; };
+		D6D5910727E784A70068C92A /* Deal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5910627E784A70068C92A /* Deal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,9 @@
 		D6D590B627E232AD0068C92A /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		D6D590B827E232B60068C92A /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 		D6D590BA27E236710068C92A /* AspectVGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AspectVGrid.swift; path = ../../../Memorize/Memorize/Memorize/Views/AspectVGrid.swift; sourceTree = "<group>"; };
+		D6D590C227E7483B0068C92A /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
+		D6D5910327E76AE10068C92A /* DeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckView.swift; sourceTree = "<group>"; };
+		D6D5910627E784A70068C92A /* Deal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +120,7 @@
 		D6D5907427E20ADE0068C92A /* Set */ = {
 			isa = PBXGroup;
 			children = (
+				D6D590FE27E767240068C92A /* Extension */,
 				D6D590B527E232670068C92A /* ViewModel */,
 				D6D590A227E211990068C92A /* Model */,
 				D6D5909F27E20BEA0068C92A /* View */,
@@ -153,10 +160,13 @@
 		D6D5909F27E20BEA0068C92A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D6D5910527E7848E0068C92A /* Animation */,
+				D6D590C127E7482E0068C92A /* Modifier */,
 				D6D590B027E227C70068C92A /* Fill */,
 				D6D590A727E21BD10068C92A /* Shapes */,
 				D6D590A027E211840068C92A /* CardView.swift */,
 				D6D590BA27E236710068C92A /* AspectVGrid.swift */,
+				D6D5910327E76AE10068C92A /* DeckView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,6 +205,29 @@
 				D6D590B827E232B60068C92A /* SetGame.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D6D590C127E7482E0068C92A /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				D6D590C227E7483B0068C92A /* Cardify.swift */,
+			);
+			path = Modifier;
+			sourceTree = "<group>";
+		};
+		D6D590FE27E767240068C92A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		D6D5910527E7848E0068C92A /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				D6D5910627E784A70068C92A /* Deal.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,9 +363,12 @@
 				D6D5907827E20ADE0068C92A /* SetGameView.swift in Sources */,
 				D6D590B227E227D10068C92A /* Stripes.swift in Sources */,
 				D6D590AD27E221C50068C92A /* Squiggle.swift in Sources */,
+				D6D5910427E76AE10068C92A /* DeckView.swift in Sources */,
 				D6D590A127E211840068C92A /* CardView.swift in Sources */,
 				D6D5907627E20ADE0068C92A /* SetApp.swift in Sources */,
 				D6D590B727E232AD0068C92A /* Game.swift in Sources */,
+				D6D590C327E7483B0068C92A /* Cardify.swift in Sources */,
+				D6D5910727E784A70068C92A /* Deal.swift in Sources */,
 				D6D590AB27E21C950068C92A /* Dimension.swift in Sources */,
 				D6D590A627E211F70068C92A /* Diamond.swift in Sources */,
 				D6D590A427E211A50068C92A /* Card.swift in Sources */,

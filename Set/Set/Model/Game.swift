@@ -7,66 +7,61 @@
 
 import SwiftUI
 
-struct Game {
+struct Game {  
   private(set) var cards: [Card] = {
     Game.generateCards()
   }()
   
-  private(set) var drawnedCards: [Card] = []
-  
   private let numberOfCardVisible: Int
-  private var numberOfCardsNotYetPlayed: Int {
-    self.cards.count
-  }
   
-  private var cardSelectedIndicies: [Int] {
-    self.drawnedCards.indices.filter {
-      self.drawnedCards[$0].isSelected
+  private var selectedCardIndicies: [Int] {
+    self.cards.indices.filter {
+      self.cards[$0].isSelected
     }
   }
   
   init(_ cards: [Card] = Game.generateCards(),
-       _ numberOfCardVisible: Int = Constants.numberOfCardVisible) {
+       _ numberOfCardVisible: Int = Constants.startingNumberOfCards) {
     self.numberOfCardVisible = numberOfCardVisible
-    self.drawnedCards = self.drawCards(self.numberOfCardVisible)
   }
   
   mutating func choose(_ card: Card) {
-    guard let cardIndex = self.drawnedCards.firstIndex(where:{ $0.id == card.id }) else {
+    guard let cardIndex = self.cards.firstIndex(where:{ $0.id == card.id }) else {
       return
     }
     
-    self.drawnedCards[cardIndex].isSelected.toggle()
-    let cardSelectedIndicies = self.cardSelectedIndicies
-    print("Number of selected = \(cardSelectedIndicies.count)")
+    self.cards[cardIndex].isSelected.toggle()
     
-    guard cardSelectedIndicies.count == Constants.numberOfCardsToMatch else {
-      return
-    }
-    
-    if self.selectedCardsMakeSet(cardSelectedIndicies) {
-      var drawnCardsToMutate = self.drawnedCards
-      for selectedCardIndex in cardSelectedIndicies {
-        drawnCardsToMutate[selectedCardIndex].isMatched = true
-        drawnCardsToMutate[selectedCardIndex].isSelected.toggle()
-      }
-      
-      if self.drawnedCards.filter({ !$0.isMatched }).count < Constants.numberOfCardVisible {
-        let drawnCards = self.drawCards(Constants.numberOfCardsToMatch)
-        drawnCardsToMutate.append(contentsOf: drawnCards)
-      }
-      
-      self.drawnedCards = drawnCardsToMutate
-    } else {
-      for selectedCardIndex in cardSelectedIndicies {
-        self.drawnedCards[selectedCardIndex].isSelected.toggle()
-      }
+    let numberOfSelectedCards = self.selectedCardIndicies.count
+    if numberOfSelectedCards == Constants.numberOfCardsToMatch {
+      self.threeCardsSelected()
     }
   }
   
-  mutating func draw() {
-    let drawnCards = self.drawCards(Constants.numberOfCardsToMatch)
-    self.drawnedCards.append(contentsOf: drawnCards)
+  mutating func draw(_ numberOfCards: Int) {
+    var drawnCardIndices: [Int] = []
+    repeat {
+      guard let cardIndex = self.cards.firstIndex(where: { !$0.isPlaying }) else {
+        break
+      }
+      
+      self.cards[cardIndex].isPlaying = true
+      drawnCardIndices.append(cardIndex)
+    } while drawnCardIndices.count < numberOfCards
+  }
+  
+  private mutating func threeCardsSelected() {
+    let selectedCardIndicies = self.selectedCardIndicies
+    if self.selectedCardsMakeSet(selectedCardIndicies) {
+      for selectedCardIndex in selectedCardIndicies {
+        self.cards[selectedCardIndex].isMatched = true
+        self.cards[selectedCardIndex].isSelected.toggle()
+      }
+    } else {
+      for selectedCardIndex in selectedCardIndicies {
+        self.cards[selectedCardIndex].isSelected.toggle()
+      }
+    }
   }
   
   private func selectedCardsMakeSet(_ selectedCardIndicies: [Int]) -> Bool {
@@ -76,33 +71,14 @@ struct Game {
     var numberOfElements: Set<Int> = []
     
     for selectedCardIndex in selectedCardIndicies {
-      fills.insert(self.drawnedCards[selectedCardIndex].fill)
-      shapes.insert(self.drawnedCards[selectedCardIndex].shape)
-      color.insert(self.drawnedCards[selectedCardIndex].color)
-      numberOfElements.insert(self.drawnedCards[selectedCardIndex].numberOfItems)
+      fills.insert(self.cards[selectedCardIndex].fill)
+      shapes.insert(self.cards[selectedCardIndex].shape)
+      color.insert(self.cards[selectedCardIndex].color)
+      numberOfElements.insert(self.cards[selectedCardIndex].numberOfItems)
     }
     
-    return (fills.count != 2 && shapes.count != 2 && color.count != 2 && numberOfElements.count != 2)
-  }
-  
-  mutating private func drawCards(_ numberOfCards: Int) -> [Card] {
-    var numberOfCardsToDraw = numberOfCards
-    if numberOfCardsToDraw > self.numberOfCardsNotYetPlayed {
-      numberOfCardsToDraw = self.numberOfCardsNotYetPlayed
-    }
-    
-    print("Drawing cards")
-    var selectedCards: [Card] = []
-    repeat {
-      guard let cardIndex = self.cards.indices.randomElement() else {
-        continue
-      }
-      
-      selectedCards.append(self.cards[cardIndex])
-      self.cards.remove(at: cardIndex)
-    } while selectedCards.count < numberOfCardsToDraw
-    
-    return selectedCards
+    return (fills.count != 2 && shapes.count != 2 &&
+            color.count != 2 && numberOfElements.count != 2)
   }
   
   static private func generateCards() -> [Card] {
@@ -110,8 +86,8 @@ struct Game {
     
     for fillType in Card.Fill.allCases {
       for shape in Card.Shape.allCases {
-        for numberOfElementInCard in 1..<Constants.maximumNumberOfElementsOnCard + 1 {
-          for color in Constants.possibleCardColors {
+        for numberOfElementInCard in 1..<Constants.maximumNumberOfElements + 1 {
+          for color in Constants.possibleColors {
             let card = Card(color: color, shape: shape,
                             fill: fillType, numberOfItems: numberOfElementInCard)
             cards.append(card)
@@ -123,14 +99,10 @@ struct Game {
     return cards
   }
   
-  private func cardCurrentlyPlaying(_ card: Card) -> Bool {
-    self.drawnedCards.contains { $0.id == card.id }
-  }
-  
-  private enum Constants {
-    static let maximumNumberOfElementsOnCard = 3
-    static let numberOfCardVisible = 12
-    static let possibleCardColors: [Color] = [.red, .blue, .orange]
+  private struct Constants {
+    static let maximumNumberOfElements = 3
+    static let startingNumberOfCards = 12
+    static let possibleColors: [Color] = [.red, .blue, .orange]
     static let numberOfCardsToMatch = 3
   }
 }

@@ -23,6 +23,7 @@
 		D6D5906627DD20C20068C92A /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5906527DD20C20068C92A /* AspectVGrid.swift */; };
 		D6D5906827DD32880068C92A /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D5906727DD32880068C92A /* Pie.swift */; };
 		D6D590BE27E478570068C92A /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D590BD27E478570068C92A /* Cardify.swift */; };
+		D6D590C027E4F3490068C92A /* AnimationCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D590BF27E4F3480068C92A /* AnimationCompletion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		D6D5906527DD20C20068C92A /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		D6D5906727DD32880068C92A /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
 		D6D590BD27E478570068C92A /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
+		D6D590BF27E4F3480068C92A /* AnimationCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCompletion.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				D642AC1327D3A45E008DA024 /* MemoryGameFactories */,
+				D6D590BF27E4F3480068C92A /* AnimationCompletion.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 			files = (
 				D6D590BE27E478570068C92A /* Cardify.swift in Sources */,
 				D6D5906827DD32880068C92A /* Pie.swift in Sources */,
+				D6D590C027E4F3490068C92A /* AnimationCompletion.swift in Sources */,
 				D642AC1527D3A471008DA024 /* MemoryGameFactories.swift in Sources */,
 				D642ABE027D2506A008DA024 /* EmojiGameView.swift in Sources */,
 				D642AC0C27D27343008DA024 /* Theme.swift in Sources */,

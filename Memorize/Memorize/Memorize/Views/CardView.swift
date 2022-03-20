@@ -18,15 +18,32 @@ struct CardView: View {
     self.cardBackColor = color
   }
   
+  @State private var animatedBonusRemaining: Double = 0
+  
   var body: some View {
     GeometryReader { geomtry in
       ZStack {
-        Pie(startAngle: Angle(degrees: -90), endAngle: Angle(degrees: -90 + 120))
+        Group {
+          if self.card.isConsumingBonusTime {
+            Pie(startAngle: Angle(degrees: Constants.Animation.changePieStartPointFromRightCenterToUpCenter),
+                endAngle: Angle(degrees: (1 - self.animatedBonusRemaining) * 360 + Constants.Animation.changePieStartPointFromRightCenterToUpCenter))
+              .onAppear {
+                self.animatedBonusRemaining = self.card.bonusRemaining
+                withAnimation(.linear(duration: self.card.bonusTimeRemaining)) {
+                  self.animatedBonusRemaining = 0
+                }
+              }
+          } else {
+            Pie(startAngle: Angle(degrees: Constants.Animation.changePieStartPointFromRightCenterToUpCenter),
+                endAngle: Angle(degrees: (1 - self.card.bonusRemaining) * 360 + Constants.Animation.changePieStartPointFromRightCenterToUpCenter))
+          }
+        }
           .padding(5)
           .opacity(0.6)
+        
         Text(self.card.content)
-          .rotationEffect(Angle.degrees(self.card.isMatched ? 340 : 0))
-          .animation(Animation.linear(duration: 1.2)
+          .rotationEffect(Angle.degrees(self.card.isMatched ? 360 : 0))
+          .animation(Animation.linear(duration: Constants.Animation.cardMatchRotationTime)
                       .repeatForever(autoreverses: false),
                      value: self.card.isMatched)
           .font(Font.system(size: Constants.Drawing.fontSize))
@@ -42,9 +59,14 @@ struct CardView: View {
   }
   
   private struct Constants {
-    struct Drawing {
+    fileprivate struct Drawing {
       static let fontScale: CGFloat = 0.65
       static let fontSize: CGFloat = 35
+    }
+    
+    fileprivate struct Animation {
+      static let cardMatchRotationTime = 1.0
+      static let changePieStartPointFromRightCenterToUpCenter = -89.0
     }
   }
 }

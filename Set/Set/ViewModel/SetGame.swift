@@ -11,7 +11,7 @@ class SetGame: ObservableObject {
   @Published var model: Game = Game()
   
   var cards: [Card] {
-    self.model.drawnedCards
+    self.model.cards
   }
   
   // MARK: Intents
@@ -19,7 +19,7 @@ class SetGame: ObservableObject {
     self.model.choose(card)
   }
   
-  func draw() {
-    self.model.draw()
+  func draw(_ numberOfCards: Int) {
+    self.model.draw(numberOfCards)
   }
 }

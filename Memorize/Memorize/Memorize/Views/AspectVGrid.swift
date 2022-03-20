@@ -7,13 +7,11 @@
 
 import SwiftUI
 
-fileprivate var minimumCardWidth = 60.0
+fileprivate var minimumCardWidth = 80.0
 struct AspectVGrid<Item, ItemView>: View where Item: Identifiable, ItemView: View {
   var items: [Item]
   var aspectRatio: CGFloat
   var content: (Item) -> ItemView
-  
-  
   
   init(_ items: [Item], aspectRatio: CGFloat, @ViewBuilder _ content: @escaping (Item) -> ItemView) {
     self.items = items
@@ -26,8 +24,6 @@ struct AspectVGrid<Item, ItemView>: View where Item: Identifiable, ItemView: Vie
       let width = widthThatFits(geometry.size)
       if width >= minimumCardWidth {
         VStack {
-          
-          
           // In this case, it only gets the body content when the view is presented on screen
           LazyVGrid(columns: [self.gridItemWithNoSpace(width)], spacing: 0) {
             // ForEach needs the class that we iterate to conform to Identifiable
