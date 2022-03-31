@@ -67,8 +67,44 @@ class EmojiArtDocument: ObservableObject
     self.emojiArt.background = background
   }
   
-  func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
+  func positioningEmoji(_ emojiString: String,
+                        position dropPosition: CGPoint,
+                        in geometry: GeometryProxy) {
+    if let index = self.emojiArt.emojis.firstIndex(where: {emoji in emoji.text == emojiString}) {
+      let center = geometry.frame(in: .local).center
+      let panOffsetWidth = self.emojiArt.emojis[index].panOffsetWidth
+      let panOffsetHeight = self.emojiArt.emojis[index].panOffsetHeight
+      let zoomScale = self.emojiArt.emojis[index].zoomScale
+      
+      let location = CGPoint(
+        x: (dropPosition.x - panOffsetWidth - center.x) / zoomScale,
+        y: (dropPosition.y - panOffsetHeight - center.y) / zoomScale
+      )
+      
+      self.emojiArt.emojis[index].x = Int(location.x)
+      self.emojiArt.emojis[index].y = Int(location.y)
+      
+      self.emojiArt.emojis[index].hidden = false
+    }
+  }
+  
+  func position(for emoji: Emoji, in geometry: GeometryProxy) -> CGPoint {
+    let center = geometry.frame(in: .local).center
+    
+    return CGPoint(
+      x: center.x + CGFloat(emoji.x) * emoji.zoomScale + emoji.panOffsetWidth,
+      y: center.y + CGFloat(emoji.y) * emoji.zoomScale + emoji.panOffsetHeight
+    )
+  }
+  
+  private func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
     self.emojiArt.addEmoji(emoji, at: location, size: Int(size))
+  }
+  
+  func moveEmojies(_ emojies: [Emoji], by offset: CGSize) {
+    for emoji in emojies {
+      self.moveEmoji(emoji, by: offset)
+    }
   }
   
   func moveEmoji(_ emoji: Emoji, by offset: CGSize) {
@@ -78,8 +114,13 @@ class EmojiArtDocument: ObservableObject
     }
   }
   
-  func scaleEmoji(_ emoji: Emoji,
-                  by scale: CGFloat) {
+  func scaleEmojies(_ emojies: [Emoji], by scale: CGFloat) {
+    for emoji in emojies {
+      self.scaleEmoji(emoji, by: scale)
+    }
+  }
+  
+  func scaleEmoji(_ emoji: Emoji, by scale: CGFloat) {
     if let index = self.emojiArt.emojis.index(matching: emoji) {
       self.emojiArt.emojis[index].size = Int(
         (CGFloat(self.emojiArt.emojis[index].size) * scale).rounded(.toNearestOrAwayFromZero)

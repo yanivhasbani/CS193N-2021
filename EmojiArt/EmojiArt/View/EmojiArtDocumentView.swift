@@ -12,7 +12,9 @@ struct EmojiArtDocumentView: View {
   @ObservedObject var document: EmojiArtDocument
   @State private var selectedEmojies: Set<Emoji> = []
   
-  let defaultEmojiFontSize: CGFloat = 40
+  var mutatableEmojies: [Emoji] {
+    self.selectedEmojies.isEmpty ? self.document.emojis : Array(self.selectedEmojies)
+  }
   
   var body: some View {
     VStack(spacing: 0) {
@@ -38,10 +40,11 @@ struct EmojiArtDocumentView: View {
         if self.document.backgroundImageFetchStatus == .fetching {
           ProgressView().scaleEffect(2)
         } else {
-          ForEach(self.document.emojis) { emoji in
+          ForEach(self.document.emojis.filter { !$0.hidden }) { emoji in
             let selected = self.selectedEmoji(emoji)
             EmojiView(emoji)
               .selected(selected)
+              .position(self.document.position(for: emoji, in: geometry))
               .onTapGesture {
                 self.selectedEmojies.toggleMembership(of: emoji)
               }
@@ -62,7 +65,9 @@ struct EmojiArtDocumentView: View {
   }
   
   // MARK: - Drag and Drop
-  private func drop(providers: [NSItemProvider], at location: CGPoint, in geometry: GeometryProxy) -> Bool {
+  private func drop(providers: [NSItemProvider],
+                    at location: CGPoint,
+                    in geometry: GeometryProxy) -> Bool {
     var found = providers.loadObjects(ofType: URL.self) { url in
       self.document.setBackground(.url(url.imageURL))
     }
@@ -76,11 +81,9 @@ struct EmojiArtDocumentView: View {
     if !found {
       found = providers.loadObjects(ofType: String.self) { string in
         if let emoji = string.first, emoji.isEmoji {
-          self.document.addEmoji(
-            String(emoji),
-            at: convertToEmojiCoordinates(location, in: geometry),
-            size: defaultEmojiFontSize / zoomScale
-          )
+          self.document.positioningEmoji(String(emoji),
+                                         position: location,
+                                         in: geometry)
         }
       }
     }
@@ -88,24 +91,6 @@ struct EmojiArtDocumentView: View {
   }
   
   // MARK: - Positioning/Sizing Emoji
-  
-  private func position(for emoji: Emoji,
-                        in geometry: GeometryProxy) -> CGPoint {
-    return self.convertFromEmojiCoordinates((emoji.x, emoji.y),
-                                            in: geometry)
-  }
-  
-  private func convertToEmojiCoordinates(_ location: CGPoint,
-                                         in geometry: GeometryProxy) -> (x: Int, y: Int) {
-    let center = geometry.frame(in: .local).center
-    
-    let location = CGPoint(
-      x: (location.x - panOffset.width - center.x) / zoomScale,
-      y: (location.y - panOffset.height - center.y) / zoomScale
-    )
-    
-    return (Int(location.x), Int(location.y))
-  }
   
   private func convertFromEmojiCoordinates(_ location: (x: Int, y: Int),
                                            in geometry: GeometryProxy) -> CGPoint {
@@ -138,6 +123,8 @@ struct EmojiArtDocumentView: View {
     MagnificationGesture()
       .updating($gestureZoomScale) { latestGestureScale, gestureZoomScale, _ in
         gestureZoomScale = latestGestureScale
+        self.document.scaleEmojies(self.mutatableEmojies,
+                                   by: latestGestureScale)
       }
       .onEnded { gestureScaleAtEnd in
         self.steadyStateZoomScale *= gestureScaleAtEnd
@@ -175,7 +162,10 @@ struct EmojiArtDocumentView: View {
   private func panGesture() -> some Gesture {
     DragGesture()
       .updating($gesturePanOffset) { latestDragGestureValue, gesturePanOffset, _ in
-        gesturePanOffset = latestDragGestureValue.translation / zoomScale
+        gesturePanOffset = latestDragGestureValue.translation / self.zoomScale
+        
+        self.document.moveEmojies(self.mutatableEmojies,
+                                  by: latestDragGestureValue.translation)
       }
 
       .onEnded { finalDragGestureValue in
@@ -188,11 +178,11 @@ struct EmojiArtDocumentView: View {
   // MARK: - Palette
   
   var palette: some View {
-    ScrollingEmojisView(emojis: self.testEmojis)
-      .font(.system(size: self.defaultEmojiFontSize))
+    ScrollingEmojisView(emojis:
+      self.document.emojis.map({ $0.text }).joined(separator: "")
+    )
+      .font(.system(size: CGFloat(Emoji.Constant.defaultFontSize)))
   }
-  
-  let testEmojis = "😀😷🦠💉👻👀🐶🌲🌎🌞🔥🍎⚽️🚗🚓🚲🛩🚁🚀🛸🏠⌚️🎁🗝🔐❤️⛔️❌❓✅⚠️🎶➕➖🏳️"
 }
 
 struct ScrollingEmojisView: View {
