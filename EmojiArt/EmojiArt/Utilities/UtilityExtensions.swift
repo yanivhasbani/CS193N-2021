@@ -70,6 +70,7 @@ extension RangeReplaceableCollection where Element: Identifiable {
 
 extension Set where Element: Identifiable {
   mutating func toggleMembership(of element: Element) {
+    print("Toggling")
     if let index = index(matching: element) {
       self.remove(at: index)
     } else {

@@ -16,8 +16,7 @@ struct EmojiView: View {
   
   var body: some View {
     GeometryReader { geometry in
-      Text(self.emoji.text)
-        .font(.system(size: CGFloat(self.emoji.size)))
+      
     }
   }
 }
@@ -31,7 +30,7 @@ struct EmojiView_Previews: PreviewProvider {
   private static func getEmoji() -> Emoji {
     var emojiDoc = EmojiArtModel()
     if emojiDoc.emojis.count == 0 {
-      emojiDoc.addEmoji("🤬", at: (0,0), size: 60)
+      emojiDoc.addEmoji("🤬", at: (0,0))
     }
     
     return emojiDoc.emojis.first!

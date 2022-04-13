@@ -25,6 +25,7 @@ class EmojiArtDocument: ObservableObject
   }
   
   var emojis: [Emoji] { self.emojiArt.emojis }
+  var emojisText: String { self.emojiArt.emojisText }
   var background: EmojiArtModel.Background { self.emojiArt.background }
   
   // MARK: - Background
@@ -67,38 +68,13 @@ class EmojiArtDocument: ObservableObject
     self.emojiArt.background = background
   }
   
-  func positioningEmoji(_ emojiString: String,
-                        position dropPosition: CGPoint,
-                        in geometry: GeometryProxy) {
-    if let index = self.emojiArt.emojis.firstIndex(where: {emoji in emoji.text == emojiString}) {
-      let center = geometry.frame(in: .local).center
-      let panOffsetWidth = self.emojiArt.emojis[index].panOffsetWidth
-      let panOffsetHeight = self.emojiArt.emojis[index].panOffsetHeight
-      let zoomScale = self.emojiArt.emojis[index].zoomScale
-      
-      let location = CGPoint(
-        x: (dropPosition.x - panOffsetWidth - center.x) / zoomScale,
-        y: (dropPosition.y - panOffsetHeight - center.y) / zoomScale
-      )
-      
-      self.emojiArt.emojis[index].x = Int(location.x)
-      self.emojiArt.emojis[index].y = Int(location.y)
-      
-      self.emojiArt.emojis[index].hidden = false
-    }
+  func addEmoji(_ emoji: String,
+                at location: (x: Int, y: Int)) {
+    self.emojiArt.addEmoji(emoji, at: location)
   }
   
-  func position(for emoji: Emoji, in geometry: GeometryProxy) -> CGPoint {
-    let center = geometry.frame(in: .local).center
-    
-    return CGPoint(
-      x: center.x + CGFloat(emoji.x) * emoji.zoomScale + emoji.panOffsetWidth,
-      y: center.y + CGFloat(emoji.y) * emoji.zoomScale + emoji.panOffsetHeight
-    )
-  }
-  
-  private func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
-    self.emojiArt.addEmoji(emoji, at: location, size: Int(size))
+  func removeEmoji(_ emoji: Emoji) {
+    self.emojiArt.removeEmoji(emoji)
   }
   
   func moveEmojies(_ emojies: [Emoji], by offset: CGSize) {
